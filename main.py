@@ -3,6 +3,7 @@ import sys
 import pyperclip
 import login
 import crypto
+import random
 
 try:
     db = login.getConnection()
@@ -37,7 +38,7 @@ def newEntry():
     val = (websiteName, password, username, eMail, telefonNumber, websiteAddress)
     cursor.execute(QNewPassword, val)
     db.commit()
-    print("S: Command executed succesfully.")
+    print("S: Command executed successfully.")
 
 def changeEntry():
     print("--> Change Entry")
@@ -156,6 +157,7 @@ def printEntry():
         answer = input("Copy Password To Clipboard? [y/n] : ")
         if answer == "y":
             pyperclip.copy(crypto.decryptMessage(i[2]))
+            print("S: Command executed successfully.")
         counter += 1
 
     if counter < 1:
@@ -171,7 +173,7 @@ def printTable():
         printRow(i)
         print("")
     
-    print("S: Command executed succesfully.")
+    print("S: Command executed successfully.")
 def printRow(row):
     print("Website Name : " + row[1])
     print("----------------------------")
@@ -181,6 +183,42 @@ def printRow(row):
     print("E-Mail : " + row[4])
     print("Telefon Number : " + row[5])
     print("Website Address : " + row[6])
+
+def genPassword():
+    try:
+        n = int(input("How long sould the password be? : "))
+    except:
+        print("E: Not a number. Try again.")
+        genPassword()
+    alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "s", "t", "u", "v", "w", "x", "y", "z"]
+    extra = ["!", "§", "$", "%", "&", "/", "(", ")", "=", "?", "<", ">"]
+
+    while True:
+        pw = []
+        
+        for i in range(n):
+            pw.append(alphabet[random.randint(0, len(alphabet) - 1)])
+            pw.append(extra[random.randint(0, len(extra) - 1)])
+            pw.append(str(random.randint(0, 9)))
+        
+        while len(pw) > n:
+            pw.pop()
+        
+        random.shuffle(pw)
+        password = ''.join(pw)
+        print(f"Generated Password: {password}")
+        answer = input("Copy Password To Clipboard? [y/n] : ")
+        if answer == "y":
+            pyperclip.copy(password)
+            print("S: Command executed successfully.")
+            return
+        else:
+            answer = input("Generate again or leave? [g/l] : ")
+            if answer == "g":
+                continue
+            else:
+                return
+
 def quitApp():
     db.commit()
     print("Bye.")
@@ -193,7 +231,7 @@ commands = {
     "4" : printEntry,
     "5" : printTable,
     "6" : genPassword,
-    "Q" : quitApp
+    "Q" : quitApp,
 }
 def menu():
     print("\n--> Main Menu")
