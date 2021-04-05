@@ -192,11 +192,12 @@ commands = {
     "3" : deleteEntry,
     "4" : printEntry,
     "5" : printTable,
+    "6" : genPassword,
     "Q" : quitApp
 }
 def menu():
     print("\n--> Main Menu")
-    print("[1] Create New Password\n[2] Change An Existing Password\n[3] Delete A Password\n[4] Print A Password\n[5] Print All Passwords\n[Q] Quit\n")
+    print("[1] Create New Password\n[2] Change An Existing Password\n[3] Delete A Password\n[4] Print A Password\n[5] Print All Passwords\n[6] Generate A Password\n[Q] Quit\n")
     answer = input("> ")
     commands[answer]()
     menu()
