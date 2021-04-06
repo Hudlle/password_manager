@@ -177,7 +177,6 @@ def printTable():
 def printRow(row):
     print("Website Name : " + row[1])
     print("----------------------------")
-    print("Password Id : " + str(row[0]))
     print("Password : " + crypto.decryptMessage(row[2]))
     print("Username : " + row[3])
     print("E-Mail : " + row[4])
