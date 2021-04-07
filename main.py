@@ -177,7 +177,7 @@ def printTable():
 def printRow(row):
     print("Website Name : " + row[1])
     print("----------------------------")
-    print("Password : " + crypto.decryptMessage(row[2]))
+    print(f"Password : {len(crypto.decryptMessage(row[2])) * '*'}")
     print("Username : " + row[3])
     print("E-Mail : " + row[4])
     print("Telefon Number : " + row[5])
@@ -231,13 +231,20 @@ commands = {
     "4" : printEntry,
     "5" : printTable,
     "6" : genPassword,
-    "Q" : quitApp,
 }
 def menu():
     print("\n--> Main Menu")
     print("[1] Create New Entry\n[2] Change An Existing Entry\n[3] Delete An Entry\n[4] Print An Entry\n[5] Print All Entrys\n[6] Generate A Password\n[Q] Quit\n")
     answer = input("> ")
-    commands[answer]()
+    if answer == "Q" or answer == "q":
+        quitApp()
+        return
+    keys = list(commands.keys())
+    for i in keys:
+        if answer == i:
+            commands[answer]()
+            menu()
+            return
+    print(f"E: {answer} Is Not A Valid Input. Try Again.")
     menu()
-
 menu()
